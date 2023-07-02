@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 
 namespace PickACardUI
 {
     internal class CardPicker
     {
         private static readonly Random random = new();
+        private static int cardCounter = 0;
 
         public static string[] PickSomeCards(int numberOfCards)
         {
@@ -28,7 +30,7 @@ namespace PickACardUI
 
             do
             {
-                card = $"{RandomValue().PadLeft(2)} of {RandomSuit()}";
+                card = $"{RandomValue(),2} of {RandomSuit()}";
                 maxAttempts--;
             } while (pickedCardSet.Contains(card) && maxAttempts > 0);
 
