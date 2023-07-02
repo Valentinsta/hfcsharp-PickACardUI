@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PickACardUI
 {
@@ -9,13 +9,39 @@ namespace PickACardUI
         public static string[] PickSomeCards(int numberOfCards)
         {
             string[] pickedCards = new string[numberOfCards];
+            HashSet<string> pickedCardSet = new HashSet<string>();
 
             for (int i = 0; i < numberOfCards; i++)
             {
-                pickedCards[i] = $"{RandomValue().PadLeft(2)} of {RandomSuit()}";
+                string card = GenerateRandomCard(pickedCardSet);
+                pickedCards[i] = card;
+                pickedCardSet.Add(card);
             }
+
             return pickedCards;
         }
+
+        private static string GenerateRandomCard(HashSet<string> pickedCardSet)
+        {
+            string card;
+            int maxAttempts = 52;
+
+            do
+            {
+                card = $"{RandomValue().PadLeft(2)} of {RandomSuit()}";
+                maxAttempts--;
+            } while (pickedCardSet.Contains(card) && maxAttempts > 0);
+
+            if (maxAttempts == 0)
+            {
+                throw new InvalidOperationException("Cannot generate a unique card.");
+            }
+
+            cardCounter++;
+
+            return card;
+        }
+
 
         private static string RandomSuit()
         {
